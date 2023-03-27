@@ -6,6 +6,7 @@ import { createView } from './app/createView.js';
 // Components
 import './components/currentYear.js';
 import './components/movieCard.js';
+import './components/loader.js';
 
 const model = createModel();
 const view = createView();

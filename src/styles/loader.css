@@ -1,0 +1,9 @@
+.hidden {
+  display: none;
+}
+
+.loader {
+  top: 60%;
+  position: absolute;
+  left: 33%;
+}

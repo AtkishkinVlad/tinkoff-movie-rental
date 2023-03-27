@@ -9,6 +9,8 @@ import {
   getSearches,
 } from '../services/browserStorage.js';
 
+const loader = document.querySelector('loader-component');
+
 export const createModel = () =>
   createStore(
     {
@@ -43,11 +45,15 @@ export const createModel = () =>
             return JSON.parse(getFilmInfo(searchTerm));
           }
 
+          loader.classList.remove('hidden');
+
           const data = await fetch(
             `http://www.omdbapi.com/?type=movie&apikey=${
               process.env.API_KEY
             }&s=${searchTerm}`
           ).then((r) => r.json());
+
+          loader.classList.add('hidden');
 
           const response =
             data.Response === 'True'
@@ -62,6 +68,7 @@ export const createModel = () =>
 
           return response;
         } catch (error) {
+          loader.classList.add('hidden');
           return { error };
         }
       },
