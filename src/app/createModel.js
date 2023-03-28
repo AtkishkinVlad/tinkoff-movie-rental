@@ -5,7 +5,7 @@ import {
   setSearches,
   getSearches,
 } from '../services/browserStorage.js';
-import { getFilmInfo } from '../services/cacheApiCalls.js';
+import { getFilmInfo } from '../services/omdb-api.js';
 
 const initialState = {
   count: JSON.parse(getCurrentResult())?.count ?? 0,
