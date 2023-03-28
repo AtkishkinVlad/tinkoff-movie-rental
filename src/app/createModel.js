@@ -29,6 +29,13 @@ export const createModel = () =>
 
       setSearches(JSON.stringify(searches));
 
+      store.setState({
+        count: 0,
+        results: [],
+        error: false,
+        searches,
+      });
+
       const { count, results, error } = await getFilmInfo(searchTerm);
 
       store.setState({

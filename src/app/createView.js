@@ -1,19 +1,16 @@
 import { clearNode } from '../helpers/clearContainer.js';
 import { pluralizeMovies } from '../helpers/pluralizeMovies.js';
+import { elements } from '../consts/elements.js';
 
 export const createView = () => {
-  // Search list
-  const resultsContainer = document.querySelector('.results__grid');
-  const resultsHeading = document.querySelector('.results__heading');
+  const {
+    resultsContainer,
+    resultsHeading,
+    searchTags,
+    searchForm,
+    searchInput,
+  } = elements;
 
-  // Tags list
-  const searchTags = document.querySelector('.search__tags');
-
-  // Form
-  const searchForm = document.querySelector('.search__form');
-  const searchInput = document.querySelector('.search__input');
-
-  // Renderers
   const renderList = (results) => {
     const list = document.createDocumentFragment();
 
@@ -59,7 +56,6 @@ export const createView = () => {
     resultsHeading.textContent = error;
   };
 
-  // Events
   const onSearchSubmit = (_listener) => {
     const listener = (event) => {
       event.preventDefault();

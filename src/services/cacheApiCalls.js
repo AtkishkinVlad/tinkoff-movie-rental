@@ -1,9 +1,11 @@
 import { mapMovie } from '../helpers/mapMovie';
 import { setCurrentResult } from './browserStorage';
+import { apiKey } from '../consts/secrets';
+import { elements } from '../consts/elements';
 
 const OMDBCacheMap = new Map();
 
-const loader = document.querySelector('loader-component');
+const { loader } = elements;
 
 export const getFilmInfo = async (searchPattern) => {
   const normalizeSearchPattern = searchPattern.toLowerCase();
@@ -16,9 +18,7 @@ export const getFilmInfo = async (searchPattern) => {
     loader.classList.remove('hidden');
 
     const data = await fetch(
-      `http://www.omdbapi.com/?type=movie&apikey=${
-        process.env.API_KEY
-      }&s=${searchPattern}`
+      `http://www.omdbapi.com/?type=movie&apikey=${apiKey}&s=${searchPattern}`
     ).then((r) => r.json());
 
     const { Response, Search, Error, totalResults } = data;
