@@ -9,13 +9,13 @@
   margin-top: 54px;
   padding: 18px 53px 20px 60px;
 
-  background-color: #1c1c1c;
+  background-color: var(--back-color);
   border: none;
-  border-bottom: 2px solid #fdce25;
+  border-bottom: 2px solid var(--main-color);
   border-radius: 2px;
   outline: none;
-  caret-color: #ffffff;
-  color: #ffffff;
+  caret-color: var(--main-color);
+  color: var(--main-color);
 
   font-size: 1.5rem;
   font-weight: 300;
@@ -23,10 +23,15 @@
   transition: 0.5s ease-in-out;
 }
 
+.search__input:focus {
+  border-bottom-color: var(--accent-color);
+}
+
 .search__input::placeholder {
   line-height: 36px;
   font-size: 24px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--main-color);
+  opacity: 0.4;
 }
 
 .search__input::-webkit-search-cancel-button {

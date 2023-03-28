@@ -3,8 +3,9 @@ class CurrentYear extends HTMLElement {
     super();
 
     const shadow = this.attachShadow({ mode: 'open' });
+    const currentYear = new Date().getFullYear();
 
-    shadow.textContent = `${new Date().getFullYear()}`;
+    shadow.textContent = `${currentYear}`;
   }
 }
 

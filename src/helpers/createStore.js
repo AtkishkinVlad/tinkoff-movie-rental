@@ -1,7 +1,7 @@
 export const createStore = (initialState, actions) => {
   let state = initialState;
   let listeners = [];
-  let bindedActions = {};
+  const bindedActions = {};
 
   const subscribe = (listener) => {
     listeners.push(listener);
@@ -26,7 +26,7 @@ export const createStore = (initialState, actions) => {
     actions = actions(storeApi);
   }
 
-  for (let action in actions) {
+  for (const action in actions) {
     if (
       Object.prototype.hasOwnProperty.call(actions, action) &&
       typeof actions[action] === 'function'

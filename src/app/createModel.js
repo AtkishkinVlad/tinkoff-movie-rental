@@ -1,50 +1,59 @@
 import { createStore } from '../helpers/createStore.js';
-import { mapMovie } from '../helpers/mapMovie.js';
+import {
+  getFilmInfo,
+  getCurrentResult,
+  setSearches,
+  getSearches,
+} from '../services/browserStorage.js';
+import { getFilmInfo } from '../services/omdb-api.js';
+
+const initialState = {
+  count: JSON.parse(getCurrentResult())?.count ?? 0,
+  results: JSON.parse(getCurrentResult())?.results ?? [],
+  error: false,
+  searches: JSON.parse(getSearches()) ?? [
+    'Star Wars',
+    'Kung Fury',
+    'Back to the Future',
+    'Matrix',
+    'Terminator',
+  ],
+};
 
 export const createModel = () =>
-  createStore(
-    {
-      count: 0,
-      results: [],
-      error: false,
-      searches: [
-        'Star Wars',
-        'Kung Fury',
-        'Back to the Future',
-        'Matrix',
-        'Terminator',
-      ],
+  createStore(initialState, (store) => ({
+    search: async (currentState, searchTerm) => {
+      const searches = [searchTerm].concat(
+        currentState.searches.filter((term) => term !== searchTerm)
+      );
+
+      setSearches(JSON.stringify(searches));
+
+      store.setState({
+        count: 0,
+        results: [],
+        error: false,
+        searches,
+      });
+
+      const { count, results, error } = await getFilmInfo(searchTerm);
+
+      store.setState({
+        count,
+        results,
+        error,
+        searches,
+      });
     },
-    (store) => ({
-      search: async (currentState, searchTerm) => {
-        store.setState({
-          count: 0,
-          results: [],
-          error: false,
-          searches: [searchTerm].concat(
-            currentState.searches.filter((term) => term !== searchTerm)
-          ),
-        });
+    removeTag: (currentState, searchTerm) => {
+      const searches = currentState.searches.filter(
+        (term) => term !== searchTerm
+      );
 
-        try {
-          const data = await fetch(
-            `http://www.omdbapi.com/?type=movie&apikey=7ea4aa35&s=${searchTerm}`
-          ).then((r) => r.json());
+      setSearches(JSON.stringify(searches));
 
-          return data.Response === 'True'
-            ? {
-                count: data.totalResults,
-                results: data.Search.map(mapMovie),
-              }
-            : { error: data.Error };
-        } catch (error) {
-          return { error };
-        }
-      },
-      removeTag: (currentState, searchTerm) => {
-        return {
-          searches: currentState.searches.filter((term) => term !== searchTerm),
-        };
-      },
-    })
-  );
+      return {
+        searches,
+      };
+    },
+  }));

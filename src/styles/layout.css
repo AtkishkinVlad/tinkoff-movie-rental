@@ -2,8 +2,14 @@
   box-sizing: border-box;
 }
 
+:root {
+  --accent-color: #fdce25;
+  --main-color: #fff;
+  --back-color: #1c1c1c;
+}
+
 html {
-  background: #1c1c1c;
+  background: var(--back-color);
   font-size: 16px;
   line-height: 1.5;
   font-family: Roboto, sans-serif;
@@ -35,5 +41,6 @@ movie-card {
 
 .footer__heading {
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--main-color);
+  opacity: 0.4;
 }

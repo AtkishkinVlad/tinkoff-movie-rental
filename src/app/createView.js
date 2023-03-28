@@ -1,31 +1,27 @@
 import { clearNode } from '../helpers/clearContainer.js';
-import { getDeclension } from '../helpers/getDeclension.js';
-
-const dMovies = getDeclension('фильм', 'фильма', 'фильмов');
+import { pluralizeMovies } from '../helpers/pluralizeMovies.js';
+import { elements } from '../consts/elements.js';
 
 export const createView = () => {
-  // Search list
-  const resultsContainer = document.querySelector('.results__grid');
-  const resultsHeading = document.querySelector('.results__heading');
+  const {
+    resultsContainer,
+    resultsHeading,
+    searchTags,
+    searchForm,
+    searchInput,
+  } = elements;
 
-  // Tags list
-  const searchTags = document.querySelector('.search__tags');
-
-  // Form
-  const searchForm = document.querySelector('.search__form');
-  const searchInput = document.querySelector('.search__input');
-
-  // Renderers
   const renderList = (results) => {
     const list = document.createDocumentFragment();
 
     results.forEach((movieData) => {
       const movie = document.createElement('movie-card');
+      const { poster, title, year, link } = movieData;
 
-      movie.poster = movieData.poster;
-      movie.title = movieData.title;
-      movie.year = movieData.year;
-      movie.link = movieData.link;
+      movie.poster = poster;
+      movie.title = title;
+      movie.year = year;
+      movie.link = link;
 
       list.appendChild(movie);
     });
@@ -39,6 +35,7 @@ export const createView = () => {
 
     terms.forEach((movie) => {
       const tag = document.createElement('a');
+
       tag.classList.add('search__tag');
       tag.href = `/?search=${movie}`;
       tag.textContent = movie;
@@ -52,14 +49,13 @@ export const createView = () => {
   };
 
   const renderCount = (count) => {
-    resultsHeading.textContent = `Нашли ${count} ${dMovies(count)}`;
+    resultsHeading.textContent = `Нашли ${count} ${pluralizeMovies(count)}`;
   };
 
   const renderError = (error) => {
     resultsHeading.textContent = error;
   };
 
-  // Events
   const onSearchSubmit = (_listener) => {
     const listener = (event) => {
       event.preventDefault();
@@ -89,13 +85,13 @@ export const createView = () => {
     const listener = (event) => {
       event.preventDefault();
 
-      if (event.target.classList.contains('search__tag') && event.altKey) {
+      if (event.target.classList.contains('search__tag')) {
         _listener(event.target.dataset.movie);
       }
     };
 
-    searchTags.addEventListener('click', listener);
-    return () => searchTags.removeEventListener('click', listener);
+    searchTags.addEventListener('dblclick', listener);
+    return () => searchTags.removeEventListener('dblclick', listener);
   };
 
   return {

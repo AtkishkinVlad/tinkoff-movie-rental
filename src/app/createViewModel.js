@@ -6,16 +6,16 @@ export const createViewModel = (model) => {
   let searchesListener = null;
 
   const update = (nextState) => {
-    if (nextState.error) {
-      console.error(nextState.error);
-      return (
-        errorListener && errorListener('Случилась ошибка. Проверьте консоль.')
-      );
+    const { error, results, count, searches } = nextState;
+
+    if (error) {
+      console.error(error);
+      return errorListener?.('Случилась ошибка. Проверьте консоль.');
     }
 
-    resultsListener && resultsListener(nextState.results);
-    countListener && countListener(nextState.count);
-    searchesListener && searchesListener(nextState.searches);
+    resultsListener?.(results);
+    countListener?.(count);
+    searchesListener?.(searches);
 
     state = nextState;
   };

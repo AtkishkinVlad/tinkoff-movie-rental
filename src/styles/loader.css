@@ -1,0 +1,11 @@
+.hidden {
+  display: none;
+}
+
+.loader {
+  top: 60%;
+  position: absolute;
+  left: 33%;
+  width: 500px;
+  height: 500px;
+}
